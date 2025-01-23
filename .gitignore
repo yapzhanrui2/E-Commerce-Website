@@ -8,7 +8,6 @@ public
 .vscode
 .DS_Store
 .idea
-.next
 yarn-error.log
 npm-debug.log
 .clinerules
