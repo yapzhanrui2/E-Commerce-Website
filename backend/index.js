@@ -4,9 +4,11 @@ require('dotenv').config();
 
 const sequelize = require('./config/database');
 const User = require('./models/user.model');
+const Product = require('./models/product.model');
 const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/user.routes');
 const adminRoutes = require('./routes/admin.routes');
+const productRoutes = require('./routes/product.routes');
 
 const app = express();
 
@@ -19,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/products', productRoutes);
 
 // Test route
 app.get('/', (req, res) => {
@@ -43,6 +46,13 @@ const initializeDatabase = async () => {
 
 initializeDatabase();
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+// Only start the server if we're not in a test environment
+let server;
+if (process.env.NODE_ENV !== 'test') {
+    server = app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
+}
+
+// Export both app and server for testing
+module.exports = { app, server };

@@ -3,6 +3,7 @@
 ## Table of Contents
 - [Authentication Endpoints](#authentication-endpoints)
 - [User Endpoints](#user-endpoints)
+- [Product Endpoints](#product-endpoints)
 - [Admin Endpoints](#admin-endpoints)
 
 ### Authentication Endpoints
@@ -99,6 +100,128 @@
 }
 ```
 
+### Product Endpoints
+
+#### Get All Products
+- **GET** `/api/products`
+- **Description**: Get list of all products with optional filtering
+- **Authentication**: Not required
+- **Query Parameters**:
+  - `category` (optional): Filter products by category
+  - `search` (optional): Search products by name
+- **Response** (200):
+```json
+{
+    "message": "Products retrieved successfully",
+    "products": [
+        {
+            "id": "uuid",
+            "name": "string",
+            "description": "string",
+            "price": "number",
+            "image": "string (URL)",
+            "categories": ["string"],
+            "createdAt": "datetime",
+            "updatedAt": "datetime"
+        }
+    ]
+}
+```
+
+#### Get Single Product
+- **GET** `/api/products/:id`
+- **Description**: Get details of a specific product
+- **Authentication**: Not required
+- **Response** (200):
+```json
+{
+    "message": "Product retrieved successfully",
+    "product": {
+        "id": "uuid",
+        "name": "string",
+        "description": "string",
+        "price": "number",
+        "image": "string (URL)",
+        "categories": ["string"],
+        "createdAt": "datetime",
+        "updatedAt": "datetime"
+    }
+}
+```
+
+#### Create Product (Admin Only)
+- **POST** `/api/products`
+- **Description**: Create a new product
+- **Authentication**: Required (Admin only)
+- **Request Body**:
+```json
+{
+    "name": "string (required)",
+    "description": "string (optional)",
+    "price": "number (required)",
+    "image": "string URL (optional)",
+    "categories": ["string"] (optional)
+}
+```
+- **Response** (201):
+```json
+{
+    "message": "Product created successfully",
+    "product": {
+        "id": "uuid",
+        "name": "string",
+        "description": "string",
+        "price": "number",
+        "image": "string",
+        "categories": ["string"],
+        "createdAt": "datetime",
+        "updatedAt": "datetime"
+    }
+}
+```
+
+#### Update Product (Admin Only)
+- **PUT** `/api/products/:id`
+- **Description**: Update an existing product
+- **Authentication**: Required (Admin only)
+- **Request Body**:
+```json
+{
+    "name": "string (optional)",
+    "description": "string (optional)",
+    "price": "number (optional)",
+    "image": "string URL (optional)",
+    "categories": ["string"] (optional)
+}
+```
+- **Response** (200):
+```json
+{
+    "message": "Product updated successfully",
+    "product": {
+        "id": "uuid",
+        "name": "string",
+        "description": "string",
+        "price": "number",
+        "image": "string",
+        "categories": ["string"],
+        "createdAt": "datetime",
+        "updatedAt": "datetime"
+    }
+}
+```
+
+#### Delete Product (Admin Only)
+- **DELETE** `/api/products/:id`
+- **Description**: Delete a product
+- **Authentication**: Required (Admin only)
+- **Response** (200):
+```json
+{
+    "message": "Product deleted successfully"
+}
+```
+
 ### Admin Endpoints
 
 #### Get All Users (Admin Only)
@@ -177,5 +300,25 @@ All endpoints may return the following error responses:
 {
     "message": "Error message description",
     "error": "Detailed error information"
+}
+```
+
+### Common Error Responses
+
+- **400 Bad Request** (Validation Error):
+```json
+{
+    "message": "Validation error",
+    "errors": {
+        "name": "Name is required",
+        "price": "Price must be a positive number"
+    }
+}
+```
+
+- **404 Not Found**:
+```json
+{
+    "message": "Product not found"
 }
 ```
