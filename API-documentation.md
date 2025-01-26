@@ -4,6 +4,7 @@
 - [Authentication Endpoints](#authentication-endpoints)
 - [User Endpoints](#user-endpoints)
 - [Product Endpoints](#product-endpoints)
+- [Cart Endpoints](#cart-endpoints)
 - [Admin Endpoints](#admin-endpoints)
 
 ### Authentication Endpoints
@@ -219,6 +220,118 @@
 ```json
 {
     "message": "Product deleted successfully"
+}
+```
+
+### Cart Endpoints
+
+#### Get User's Cart
+- **GET** `/api/cart`
+- **Description**: Get all items in the authenticated user's cart
+- **Authentication**: Required
+- **Response** (200):
+```json
+{
+    "message": "Cart retrieved successfully",
+    "cartItems": [
+        {
+            "id": "uuid",
+            "quantity": "number",
+            "Product": {
+                "name": "string",
+                "price": "number",
+                "image": "string (URL)"
+            },
+            "createdAt": "datetime",
+            "updatedAt": "datetime"
+        }
+    ]
+}
+```
+
+#### Add Item to Cart
+- **POST** `/api/cart/items`
+- **Description**: Add a product to the user's cart (or increment quantity if it already exists)
+- **Authentication**: Required
+- **Request Body**:
+```json
+{
+    "productId": "uuid",
+    "quantity": "number (optional, defaults to 1)"
+}
+```
+- **Response** (201):
+```json
+{
+    "message": "Item added to cart successfully",
+    "cartItem": {
+        "id": "uuid",
+        "quantity": "number",
+        "Product": {
+            "name": "string",
+            "price": "number",
+            "image": "string (URL)"
+        },
+        "createdAt": "datetime",
+        "updatedAt": "datetime"
+    }
+}
+```
+
+#### Update Cart Item Quantity
+- **PUT** `/api/cart/items/:itemId`
+- **Description**: Update the quantity of a specific item in the cart
+- **Authentication**: Required
+- **Request Body**:
+```json
+{
+    "quantity": "number (must be positive)"
+}
+```
+- **Response** (200):
+```json
+{
+    "message": "Cart item updated successfully",
+    "cartItem": {
+        "id": "uuid",
+        "quantity": "number",
+        "Product": {
+            "name": "string",
+            "price": "number",
+            "image": "string (URL)"
+        },
+        "createdAt": "datetime",
+        "updatedAt": "datetime"
+    }
+}
+```
+
+#### Remove Item from Cart
+- **DELETE** `/api/cart/items/:itemId`
+- **Description**: Remove an item from the cart
+- **Authentication**: Required
+- **Response** (200):
+```json
+{
+    "message": "Item removed from cart successfully"
+}
+```
+
+### Additional Cart Error Responses
+
+In addition to the standard error responses, cart endpoints may return:
+
+- **404 Not Found**:
+```json
+{
+    "message": "Cart item not found"
+}
+```
+
+- **400 Bad Request**:
+```json
+{
+    "message": "Quantity must be a positive integer"
 }
 ```
 

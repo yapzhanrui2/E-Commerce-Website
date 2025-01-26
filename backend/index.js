@@ -3,12 +3,12 @@ const cors = require('cors');
 require('dotenv').config();
 
 const sequelize = require('./config/database');
-const User = require('./models/user.model');
-const Product = require('./models/product.model');
+const models = require('./models');
 const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/user.routes');
 const adminRoutes = require('./routes/admin.routes');
 const productRoutes = require('./routes/product.routes');
+const cartRoutes = require('./routes/cart.routes');
 
 const app = express();
 
@@ -22,10 +22,11 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/cart', cartRoutes);
 
 // Test route
 app.get('/', (req, res) => {
-    res.json({ message: 'Welcome to the E-Commerce API' });
+    res.json({ message: 'Welcome to the Cofeee Bean E-Commerce API' });
 });
 
 // Database initialization and server start
@@ -35,10 +36,12 @@ const initializeDatabase = async () => {
     try {
         await sequelize.authenticate();
         console.log('Database connection has been established successfully.');
-        
-        // Sync database (in development, you might want to use {force: true} to recreate tables)
-        await sequelize.sync();
-        console.log('Database synchronized successfully.');
+        // Prevent automatic sync in test environment
+        if (process.env.NODE_ENV !== 'test') {
+            // Sync database (in development, you might want to use {force: true} to recreate tables)
+            await sequelize.sync();
+            console.log('Database synchronized successfully.');
+        }
     } catch (error) {
         console.error('Unable to connect to the database:', error);
     }

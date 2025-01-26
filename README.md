@@ -16,6 +16,14 @@ A full-featured e-commerce platform built with Node.js, Express, and PostgreSQL.
 - Product CRUD operations (Admin only)
 - Image URL support for products
 
+### Shopping Cart
+- Add products to cart with specified quantity
+- View cart contents with product details
+- Update item quantities
+- Remove items from cart
+- Automatic quantity aggregation for duplicate items
+- Per-user cart isolation
+
 ## Tech Stack
 
 ### Backend

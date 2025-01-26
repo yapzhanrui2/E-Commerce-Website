@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const sequelize = require('../config/database');
+const models = require('../models');
 
 // Mock environment variables
 process.env.NODE_ENV = 'test';
@@ -9,7 +10,13 @@ process.env.JWT_SECRET = 'test-secret-key';
 beforeAll(async () => {
     try {
         await sequelize.authenticate();
+        
+        // Force sync all models and their associations
         await sequelize.sync({ force: true });
+        
+        // Verify models are properly set up
+        console.log('Available models:', Object.keys(sequelize.models));
+        
     } catch (error) {
         console.error('Test database setup error:', error);
         throw error;
