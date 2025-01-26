@@ -23,6 +23,10 @@ const Product = sequelize.define('Product', {
         allowNull: false,
         validate: {
             min: 0
+        },
+        get() {
+            const value = this.getDataValue('price');
+            return value === null ? null : parseFloat(value);
         }
     },
     image: {
