@@ -24,6 +24,13 @@ A full-featured e-commerce platform built with Node.js, Express, and PostgreSQL.
 - Automatic quantity aggregation for duplicate items
 - Per-user cart isolation
 
+### Reviews
+- Create product reviews with ratings (1-5) and comments
+- View all reviews for a product
+- Average rating and total reviews count
+- One review per user per product
+- User attribution for reviews
+
 ## Tech Stack
 
 ### Backend
