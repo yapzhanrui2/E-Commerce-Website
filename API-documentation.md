@@ -5,6 +5,7 @@
 - [User Endpoints](#user-endpoints)
 - [Product Endpoints](#product-endpoints)
 - [Cart Endpoints](#cart-endpoints)
+- [Review Endpoints](#review-endpoints)
 - [Admin Endpoints](#admin-endpoints)
 
 ### Authentication Endpoints
@@ -332,6 +333,81 @@ In addition to the standard error responses, cart endpoints may return:
 ```json
 {
     "message": "Quantity must be a positive integer"
+}
+```
+
+### Review Endpoints
+
+#### Create Review
+- **POST** `/api/reviews`
+- **Description**: Create a new review for a product
+- **Authentication**: Required
+- **Request Body**:
+```json
+{
+    "productId": "uuid",
+    "rating": "number (1-5)",
+    "comment": "string (optional)"
+}
+```
+- **Response** (201):
+```json
+{
+    "message": "Review created successfully",
+    "review": {
+        "id": "uuid",
+        "productId": "uuid",
+        "userId": "uuid",
+        "rating": "number",
+        "comment": "string",
+        "createdAt": "datetime"
+    }
+}
+```
+
+#### Get Product Reviews
+- **GET** `/api/reviews/:productId`
+- **Description**: Get all reviews for a specific product
+- **Authentication**: Not required
+- **Response** (200):
+```json
+{
+    "message": "Reviews retrieved successfully",
+    "averageRating": "number",
+    "totalReviews": "number",
+    "reviews": [
+        {
+            "id": "uuid",
+            "rating": "number",
+            "comment": "string",
+            "createdAt": "datetime",
+            "User": {
+                "id": "uuid",
+                "username": "string"
+            }
+        }
+    ]
+}
+```
+
+### Additional Review Error Responses
+
+Reviews endpoints may return these specific errors:
+
+- **400 Bad Request** (Invalid Rating):
+```json
+{
+    "message": "Validation error",
+    "errors": {
+        "rating": "Rating must be an integer between 1 and 5"
+    }
+}
+```
+
+- **400 Bad Request** (Duplicate Review):
+```json
+{
+    "message": "You have already reviewed this product"
 }
 ```
 
