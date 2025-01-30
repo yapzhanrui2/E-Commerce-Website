@@ -10,11 +10,17 @@ const adminRoutes = require('./routes/admin.routes');
 const productRoutes = require('./routes/product.routes');
 const cartRoutes = require('./routes/cart.routes');
 const reviewRoutes = require('./routes/review.routes');
+const orderRoutes = require('./routes/order.routes');
 
 const app = express();
 
 // Middleware
 app.use(cors());
+
+// Raw body for Stripe webhook
+app.use('/api/orders/webhook', express.raw({ type: 'application/json' }));
+
+// Regular body parsing for other routes
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -25,6 +31,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/reviews', reviewRoutes);
+app.use('/api/orders', orderRoutes);
 
 // Test route
 app.get('/', (req, res) => {

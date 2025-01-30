@@ -6,6 +6,7 @@
 - [Product Endpoints](#product-endpoints)
 - [Cart Endpoints](#cart-endpoints)
 - [Review Endpoints](#review-endpoints)
+- [Order Endpoints](#order-endpoints)
 - [Admin Endpoints](#admin-endpoints)
 
 ### Authentication Endpoints
@@ -408,6 +409,174 @@ Reviews endpoints may return these specific errors:
 ```json
 {
     "message": "You have already reviewed this product"
+}
+```
+
+### Order Endpoints
+
+#### Create Checkout Session
+- **POST** `/api/orders/checkout`
+- **Description**: Create a Stripe checkout session for the items in the user's cart
+- **Authentication**: Required
+- **Response** (200):
+```json
+{
+    "message": "Checkout session created",
+    "sessionId": "string",
+    "sessionUrl": "string"
+}
+```
+
+#### Get User's Orders
+- **GET** `/api/orders/my-orders`
+- **Description**: Get all orders for the authenticated user
+- **Authentication**: Required
+- **Response** (200):
+```json
+{
+    "message": "Orders retrieved successfully",
+    "orders": [
+        {
+            "id": "uuid",
+            "userId": "uuid",
+            "status": "string (pending|processing|completed|cancelled)",
+            "totalAmount": "number",
+            "paymentStatus": "string (pending|paid|failed)",
+            "shippingAddress": {
+                "name": "string",
+                "address": "object"
+            },
+            "createdAt": "datetime",
+            "updatedAt": "datetime",
+            "OrderItems": [
+                {
+                    "id": "uuid",
+                    "quantity": "number",
+                    "priceAtTime": "number",
+                    "Product": {
+                        "name": "string",
+                        "image": "string (URL)"
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+
+#### Get Single Order Details
+- **GET** `/api/orders/my-orders/:orderId`
+- **Description**: Get detailed information about a specific order
+- **Authentication**: Required
+- **Response** (200):
+```json
+{
+    "message": "Order retrieved successfully",
+    "order": {
+        "id": "uuid",
+        "userId": "uuid",
+        "status": "string (pending|processing|completed|cancelled)",
+        "totalAmount": "number",
+        "paymentStatus": "string (pending|paid|failed)",
+        "shippingAddress": {
+            "name": "string",
+            "address": "object"
+        },
+        "createdAt": "datetime",
+        "updatedAt": "datetime",
+        "OrderItems": [
+            {
+                "id": "uuid",
+                "quantity": "number",
+                "priceAtTime": "number",
+                "Product": {
+                    "name": "string",
+                    "image": "string (URL)"
+                }
+            }
+        ]
+    }
+}
+```
+
+#### Get All Orders (Admin Only)
+- **GET** `/api/orders/all`
+- **Description**: Get all orders in the system
+- **Authentication**: Required (Admin only)
+- **Response** (200):
+```json
+{
+    "message": "All orders retrieved successfully",
+    "orders": [
+        {
+            "id": "uuid",
+            "userId": "uuid",
+            "status": "string",
+            "totalAmount": "number",
+            "paymentStatus": "string",
+            "shippingAddress": "object",
+            "createdAt": "datetime",
+            "updatedAt": "datetime",
+            "OrderItems": [
+                {
+                    "id": "uuid",
+                    "quantity": "number",
+                    "priceAtTime": "number",
+                    "Product": {
+                        "name": "string",
+                        "image": "string (URL)"
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+
+#### Update Order Status (Admin Only)
+- **PUT** `/api/orders/:orderId/status`
+- **Description**: Update the status of an order
+- **Authentication**: Required (Admin only)
+- **Request Body**:
+```json
+{
+    "status": "string (processing|completed|cancelled)"
+}
+```
+- **Response** (200):
+```json
+{
+    "message": "Order status updated successfully",
+    "order": {
+        "id": "uuid",
+        "status": "string",
+        "updatedAt": "datetime"
+    }
+}
+```
+
+### Additional Order Error Responses
+
+Order endpoints may return these specific errors:
+
+- **400 Bad Request** (Empty Cart):
+```json
+{
+    "message": "Cart is empty"
+}
+```
+
+- **400 Bad Request** (Invalid Status):
+```json
+{
+    "message": "Invalid order status"
+}
+```
+
+- **404 Not Found** (Order Not Found):
+```json
+{
+    "message": "Order not found"
 }
 ```
 

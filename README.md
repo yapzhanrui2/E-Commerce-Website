@@ -1,97 +1,126 @@
-# E-Commerce Website
+# E-Commerce Website Backend
 
-A full-featured e-commerce platform built with Node.js, Express, and PostgreSQL.
+A robust e-commerce backend built with Node.js, Express, and PostgreSQL, featuring user authentication, product management, shopping cart functionality, order processing with Stripe integration, and user reviews.
 
 ## Features
 
-### User Management
-- User registration and authentication
-- JWT-based authentication
-- Role-based access control (Admin/User)
-- User profile management
+- 🔐 **User Authentication**
+  - JWT-based authentication
+  - User registration and login
+  - Role-based access control (Admin/User)
 
-### Product Management
-- Product catalog with search and filtering
-- Category-based product organization
-- Product CRUD operations (Admin only)
-- Image URL support for products
+- 📦 **Product Management**
+  - Product CRUD operations
+  - Category-based filtering
+  - Search functionality
+  - Image URL support
 
-### Shopping Cart
-- Add products to cart with specified quantity
-- View cart contents with product details
-- Update item quantities
-- Remove items from cart
-- Automatic quantity aggregation for duplicate items
-- Per-user cart isolation
+- 🛒 **Shopping Cart**
+  - Add/remove items
+  - Update quantities
+  - Persistent cart storage
+  - Multi-item support
 
-### Reviews
-- Create product reviews with ratings (1-5) and comments
-- View all reviews for a product
-- Average rating and total reviews count
-- One review per user per product
-- User attribution for reviews
+- 💳 **Order Processing**
+  - Stripe checkout integration
+  - Order history
+  - Order status management
+  - Shipping address handling
 
-## Tech Stack
+- ⭐ **Reviews & Ratings**
+  - Product reviews
+  - Rating system
+  - User-specific review restrictions
 
-### Backend
-- Node.js
-- Express.js
-- PostgreSQL
-- Sequelize ORM
-- JSON Web Tokens (JWT)
-- bcrypt.js for password hashing
+- 👑 **Admin Features**
+  - User management
+  - Order management
+  - Product management
+  - Role management
 
-### Testing
-- Jest for unit and integration testing
-- Supertest for API testing
-- In-memory PostgreSQL database for testing
+## Technology Stack
 
-## Getting Started
+- **Backend**: Node.js + Express.js
+- **Database**: PostgreSQL + Sequelize ORM
+- **Authentication**: JWT (JSON Web Tokens)
+- **Payment Processing**: Stripe
+- **Testing**: Jest + Supertest
 
-### Prerequisites
+## Prerequisites
+
 - Node.js (v14 or higher)
-- PostgreSQL
-- npm or yarn
+- PostgreSQL (v12 or higher)
+- Stripe Account (for payment processing)
 
-### Installation
+## Environment Variables
+
+Create a `.env` file in the backend directory with the following variables:
+
+```env
+# Server
+PORT=5005
+NODE_ENV=development
+
+# Database
+DB_NAME=your_database_name
+DB_USER=your_database_user
+DB_PASSWORD=your_database_password
+DB_HOST=localhost
+
+# JWT
+JWT_SECRET=your_jwt_secret_key
+
+# Stripe
+STRIPE_SECRET_KEY=your_stripe_secret_key
+STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
+
+# Frontend URL (for Stripe success/cancel URLs)
+FRONTEND_URL=http://localhost:3000
+```
+
+## Installation
 
 1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/E-Commerce-Website.git
-cd E-Commerce-Website
-```
+   ```bash
+   git clone [repository-url]
+   cd e-commerce-website/backend
+   ```
 
 2. Install dependencies:
-```bash
-cd backend
-npm install
-```
+   ```bash
+   npm install
+   ```
 
-3. Set up environment variables:
-Create a `.env` file in the backend directory with the following variables:
-```env
-PORT=5005
-DB_HOST=your_db_host
-DB_USER=your_db_user
-DB_PASSWORD=your_db_password
-DB_NAME=your_db_name
-DB_NAME_TEST=your_test_db_name
-JWT_SECRET=your_jwt_secret
-```
+3. Set up the database:
+   ```bash
+   # Create database
+   createdb your_database_name
 
-4. Initialize the database:
-```bash
-npm run start
-```
+   # Run migrations (if using migrations)
+   npm run migrate
+   ```
 
-### Running Tests
+4. Start the server:
+   ```bash
+   # Development
+   npm run dev
+
+   # Production
+   npm start
+   ```
+
+## Testing
+
+Run the test suite:
 ```bash
+# Run all tests
 npm test
-```
 
-For test coverage:
-```bash
+# Run tests with coverage
 npm run test:coverage
+
+# Run tests in watch mode
+npm run test:watch
 ```
 
 ## API Documentation
@@ -102,29 +131,30 @@ See [API-documentation.md](API-documentation.md) for detailed API endpoints and 
 
 ```
 backend/
-├── config/         # Configuration files
-├── controllers/    # Route controllers
-├── middlewares/    # Custom middlewares
-├── models/         # Database models
-├── routes/         # API routes
-├── tests/          # Test files
-└── index.js        # Application entry point
+├── config/             # Configuration files
+├── controllers/        # Route controllers
+├── middlewares/        # Custom middlewares
+├── models/            # Database models
+├── routes/            # API routes
+├── tests/             # Test files
+├── .env               # Environment variables
+└── index.js           # Application entry point
 ```
 
 ## Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
 ## License
 
-This project is licensed under the ISC License.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
-- Express.js team
-- Sequelize team
-- Jest team
+- Express.js team for the amazing framework
+- Sequelize team for the robust ORM
+- Stripe team for the payment processing capabilities
