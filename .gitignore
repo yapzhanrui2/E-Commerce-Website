@@ -11,6 +11,7 @@ public
 yarn-error.log
 npm-debug.log
 .clinerules
+.cursorrules
 
 # Node.js
 # Logs
