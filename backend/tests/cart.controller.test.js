@@ -44,11 +44,6 @@ describe('Cart Controller Tests', () => {
     // Setup test users and product before all tests
     beforeAll(async () => {
         try {
-            // Clear existing users and products
-            await User.destroy({ where: {}, force: true });
-            await Product.destroy({ where: {}, force: true });
-            await CartItem.destroy({ where: {}, force: true });
-            
             // Create test users
             const user1 = await User.create(testUser1);
             const user2 = await User.create(testUser2);
@@ -69,8 +64,6 @@ describe('Cart Controller Tests', () => {
             if (!verifyProduct) {
                 throw new Error('Failed to create test product');
             }
-            console.log('Test product created:', verifyProduct.toJSON());
-
         } catch (error) {
             console.error('Test setup error:', error);
             throw error;
@@ -80,24 +73,22 @@ describe('Cart Controller Tests', () => {
     // Cleanup after all tests
     afterAll(async () => {
         try {
-            await CartItem.destroy({ where: {}, force: true });
-            await Product.destroy({ where: {}, force: true });
-            await User.destroy({ where: {}, force: true });
+            // Delete test data in reverse order of dependencies
+            await CartItem.destroy({ where: { userId: [user1Id, user2Id] } });
+            await Product.destroy({ where: { id: productId } });
+            await User.destroy({ where: { id: [user1Id, user2Id] } });
         } catch (error) {
             console.error('Test cleanup error:', error);
         }
     });
 
-    // Clear cart items before each test
+    // Clear only test cart items before each test
     beforeEach(async () => {
         try {
-            await CartItem.destroy({
-                where: {},
-                force: true,
-                truncate: { cascade: true }
-            });
+            await CartItem.destroy({ where: { userId: [user1Id, user2Id] } });
+            cartItemId = null;
         } catch (error) {
-            console.error('Error clearing cart items:', error);
+            console.error('Error clearing test cart items:', error);
         }
     });
 
