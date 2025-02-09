@@ -316,7 +316,7 @@ export default function ProductDetail() {
                 <select
                   value={quantity}
                   onChange={handleQuantityChange}
-                  className="w-full sm:w-24 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-base"
+                  className="w-full sm:w-24 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-black"
                 >
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                     <option key={num} value={num}>

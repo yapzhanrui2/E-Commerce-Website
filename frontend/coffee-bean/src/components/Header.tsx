@@ -256,7 +256,7 @@ export default function Header() {
                         </svg>
                       </button>
                       {isDropdownOpen && (
-                        <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+                        <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                           {user.role === 'admin' && (
                             <Link
                               href="/admin"

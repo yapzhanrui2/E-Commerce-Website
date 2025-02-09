@@ -188,7 +188,7 @@ export default function CartPage() {
                           value={item.quantity}
                           onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value))}
                           disabled={updatingItemId === item.id}
-                          className="rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                          className="rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm text-black"
                         >
                           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                             <option key={num} value={num}>

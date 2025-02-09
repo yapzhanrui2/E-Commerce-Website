@@ -172,7 +172,7 @@ export default function OrdersPage() {
                     <div key={item.id} className="flex items-center py-4 first:pt-0 last:pb-0 border-b last:border-b-0 border-gray-200">
                       <div className="relative h-20 w-20 flex-shrink-0">
                         <Image
-                          src={item.Product.image || '/placeholder-product.jpg'}
+                          src={`${process.env.NEXT_PUBLIC_S3_BASE_URL}/products/${item.Product.name}.webp`}
                           alt={item.Product.name}
                           fill
                           className="object-cover rounded"

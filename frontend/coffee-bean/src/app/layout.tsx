@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Coffee Bean",
+  title: "The Coffee Bean Project",
   description: "Premium coffee beans for coffee lovers",
 };
 
