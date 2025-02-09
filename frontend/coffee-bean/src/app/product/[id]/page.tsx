@@ -221,16 +221,16 @@ export default function ProductDetail() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gray-50">
       <Header />
       
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <Link
           href="/"
-          className="inline-flex items-center text-gray-600 hover:text-gray-900 mb-8"
+          className="inline-flex items-center text-gray-600 hover:text-gray-900 mb-6 md:mb-8 group"
         >
           <svg
-            className="w-5 h-5 mr-2"
+            className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform duration-200"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -245,118 +245,139 @@ export default function ProductDetail() {
           Back to Products
         </Link>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Product Image */}
-          <div className="relative h-96 md:h-[600px] rounded-lg overflow-hidden">
-            <Image
-              src={`${process.env.NEXT_PUBLIC_S3_BASE_URL}/products/${product.name}.webp`}
-              alt={product.name}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
-              priority
-            />
-          </div>
-
-          {/* Product Details */}
-          <div className="flex flex-col">
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">{product.name}</h1>
-            
-            <div className="flex gap-2 mb-6">
-              {product.categories.map((category, index) => (
-                <span
-                  key={index}
-                  className="px-3 py-1 text-sm bg-gray-100 text-gray-600 rounded-full"
-                >
-                  {category}
-                </span>
-              ))}
+        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 p-4 md:p-8">
+            {/* Product Image */}
+            <div className="relative h-[300px] md:h-[500px] rounded-xl overflow-hidden group">
+              <Image
+                src={`${process.env.NEXT_PUBLIC_S3_BASE_URL}/products/${product.name}.webp`}
+                alt={product.name}
+                fill
+                className="object-cover transform group-hover:scale-105 transition-transform duration-500"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
+              />
+              <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-500" />
             </div>
 
-            <p className="text-2xl font-bold text-gray-900 mb-6">
-              ${product.price.toFixed(2)}
-            </p>
-
-            <p className="text-gray-600 mb-8 leading-relaxed">
-              {product.description}
-            </p>
-
-            <div className="flex gap-4 items-center mb-8">
-              <select
-                value={quantity}
-                onChange={handleQuantityChange}
-                className="block w-24 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              >
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
-                  <option key={num} value={num}>
-                    {num}
-                  </option>
-                ))}
-              </select>
-
-              <button
-                onClick={handleAddToCart}
-                disabled={addingToCart}
-                className={`flex-1 px-6 py-3 rounded-lg font-semibold transition-colors duration-200 
-                  ${addingToCart 
-                    ? 'bg-blue-400 cursor-not-allowed' 
-                    : 'bg-blue-600 hover:bg-blue-700 text-white'
-                  }`}
-              >
-                {addingToCart ? (
-                  <span className="flex items-center justify-center">
-                    <svg
-                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
+            {/* Product Details */}
+            <div className="flex flex-col px-4 md:px-0">
+              <div className="flex-1">
+                <div className="flex gap-2 mb-4 flex-wrap">
+                  {product.categories.map((category, index) => (
+                    <span
+                      key={index}
+                      className="px-3 py-1 text-xs md:text-sm bg-blue-50 text-blue-600 rounded-full hover:bg-blue-100 transition-colors"
                     >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                    Adding...
-                  </span>
-                ) : (
-                  'Add to Cart'
-                )}
-              </button>
-            </div>
+                      {category}
+                    </span>
+                  ))}
+                </div>
+                
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">{product.name}</h1>
+                
+                <p className="text-xl md:text-2xl font-bold text-gray-900 mb-6">
+                  ${product.price.toFixed(2)}
+                </p>
 
-            {/* Additional Product Information */}
-            <div className="border-t border-gray-200 pt-8">
-              <h2 className="text-xl font-semibold mb-4">Product Details</h2>
-              <ul className="space-y-2 text-gray-600">
-                <li>• Premium quality coffee beans</li>
-                <li>• Carefully selected and roasted</li>
-                <li>• Packaged for maximum freshness</li>
-                <li>• Sourced from sustainable farms</li>
-              </ul>
+                <p className="text-gray-600 mb-8 leading-relaxed text-sm md:text-base">
+                  {product.description}
+                </p>
+
+                <div className="space-y-4 md:space-y-6 mb-8">
+                  <div className="flex items-center gap-4">
+                    <div className="w-8 h-8 text-blue-600">
+                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-gray-700">Premium quality coffee beans</span>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-8 h-8 text-blue-600">
+                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-gray-700">Roasted to order for maximum freshness</span>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="w-8 h-8 text-blue-600">
+                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-gray-700">Free shipping on orders over $50</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+                <select
+                  value={quantity}
+                  onChange={handleQuantityChange}
+                  className="w-full sm:w-24 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-base"
+                >
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                    <option key={num} value={num}>
+                      {num}
+                    </option>
+                  ))}
+                </select>
+
+                <button
+                  onClick={handleAddToCart}
+                  disabled={addingToCart}
+                  className={`flex-1 px-6 py-3 md:px-8 md:py-4 rounded-lg font-semibold text-white shadow-lg 
+                    ${addingToCart 
+                      ? 'bg-blue-400 cursor-not-allowed' 
+                      : 'bg-blue-600 hover:bg-blue-700 transform hover:scale-[1.02] hover:shadow-xl'
+                    } transition-all duration-200`}
+                >
+                  {addingToCart ? (
+                    <span className="flex items-center justify-center">
+                      <svg
+                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                      Adding to Cart...
+                    </span>
+                  ) : (
+                    'Add to Cart'
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Reviews Section */}
-        <div className="mt-16">
-          <div className="border-t border-gray-200 pt-8">
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h2 className="text-2xl font-bold text-gray-900">
+        <div className="mt-8 md:mt-16">
+          <div className="bg-white rounded-2xl shadow-lg p-4 md:p-8">
+            <div className="flex flex-col md:flex-row md:items-center justify-between mb-8">
+              <div className="mb-4 md:mb-0">
+                <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
                   Customer Reviews
                 </h2>
-                <div className="flex items-center mt-2">
+                <div className="flex items-center gap-2">
                   {renderStars(Number(getAverageRating()))}
-                  <span className="ml-2 text-gray-600">
+                  <span className="text-sm md:text-base text-gray-600">
                     {getAverageRating()} out of 5 ({reviews.length} reviews)
                   </span>
                 </div>
@@ -364,7 +385,7 @@ export default function ProductDetail() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as 'recent' | 'rating')}
-                className="rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="w-full md:w-auto rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
               >
                 <option value="recent">Most Recent</option>
                 <option value="rating">Highest Rated</option>
@@ -373,16 +394,16 @@ export default function ProductDetail() {
 
             {/* Review Form */}
             {isAuthenticated ? (
-              <div className="mb-8">
+              <div className="mb-12 bg-gray-50 rounded-xl p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Write a Review</h3>
                 <ReviewForm productId={id} onReviewSubmitted={handleReviewSubmitted} />
               </div>
             ) : (
-              <div className="bg-gray-50 rounded-lg p-4 mb-8 text-center">
-                <p className="text-gray-600 mb-2">Sign in to leave a review</p>
+              <div className="bg-gray-50 rounded-xl p-6 mb-12 text-center">
+                <p className="text-gray-600 mb-3">Sign in to leave a review</p>
                 <button
                   onClick={() => setShowAuthModal(true)}
-                  className="text-blue-600 hover:text-blue-700 font-medium"
+                  className="text-blue-600 hover:text-blue-700 font-medium hover:underline"
                 >
                   Sign In
                 </button>
@@ -397,30 +418,32 @@ export default function ProductDetail() {
                 >
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center">
-                      <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
-                        <span className="text-gray-600 font-semibold">
-                          {review.user?.name?.[0] || 'U'}
-                        </span>
+                      <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-semibold">
+                        {review.user?.name?.[0] || 'U'}
                       </div>
                       <div className="ml-4">
                         <p className="font-semibold text-gray-900">
                           {review.user?.name || 'Anonymous'}
                         </p>
-                        <div className="flex items-center">
+                        <div className="flex items-center gap-2">
                           {renderStars(review.rating)}
-                          <span className="ml-2 text-sm text-gray-500">
-                            {new Date(review.createdAt).toLocaleDateString()}
+                          <span className="text-sm text-gray-500">
+                            {new Date(review.createdAt).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric'
+                            })}
                           </span>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <p className="text-gray-600">{review.comment}</p>
+                  <p className="text-gray-600 leading-relaxed">{review.comment}</p>
                 </div>
               ))}
 
               {reviews.length === 0 && (
-                <div className="text-center py-8 text-gray-500">
+                <div className="text-center py-12 text-gray-500">
                   No reviews yet. Be the first to review this product!
                 </div>
               )}
@@ -433,6 +456,23 @@ export default function ProductDetail() {
       {showAuthModal && (
         <Auth onClose={() => setShowAuthModal(false)} />
       )}
+
+      <style jsx>{`
+        @keyframes slide-in {
+          from {
+            opacity: 0;
+            transform: translateY(1rem);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        main {
+          animation: slide-in 0.6s ease-out;
+        }
+      `}</style>
     </div>
   );
 } 

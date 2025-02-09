@@ -156,7 +156,7 @@ export default function CartPage() {
                   >
                     <div className="relative h-24 w-24 flex-shrink-0">
                       <Image
-                        src={(item.product?.image || item.Product?.image) || '/placeholder-product.jpg'}
+                        src={`${process.env.NEXT_PUBLIC_S3_BASE_URL}/products/${item.product?.name}.webp`}
                         alt={(item.product?.name || item.Product?.name) || 'Product'}
                         fill
                         className="object-cover rounded"
