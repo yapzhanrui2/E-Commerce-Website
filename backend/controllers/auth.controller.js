@@ -94,3 +94,51 @@ exports.login = async (req, res) => {
         });
     }
 };
+
+// Get current user details
+exports.getMe = async (req, res) => {
+    try {
+        // req.user is already set by verifyToken middleware
+        const user = await User.findByPk(req.user.id, {
+            attributes: { exclude: ['password'] } // Exclude password from response
+        });
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+
+        res.status(200).json({
+            user: {
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                role: user.role
+            }
+        });
+    } catch (error) {
+        console.error('Get user error:', error);
+        res.status(500).json({
+            message: "Error fetching user details",
+            error: error.message
+        });
+    }
+};
+
+// Logout user
+exports.logout = async (req, res) => {
+    try {
+        // Since we're using JWT, we don't need to do anything server-side
+        // The client should remove the token
+        res.status(200).json({
+            message: "Logout successful"
+        });
+    } catch (error) {
+        console.error('Logout error:', error);
+        res.status(500).json({
+            message: "Error during logout",
+            error: error.message
+        });
+    }
+};

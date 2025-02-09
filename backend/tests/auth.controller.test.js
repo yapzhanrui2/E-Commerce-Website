@@ -11,6 +11,9 @@ describe('Auth Controller', () => {
     let responseObject;
 
     beforeEach(() => {
+        // Reset all mocks before each test
+        jest.clearAllMocks();
+        
         responseObject = {};
         mockRequest = {
             body: {}
@@ -21,6 +24,11 @@ describe('Auth Controller', () => {
                 responseObject = result;
             })
         };
+    });
+
+    afterEach(() => {
+        // Clean up mocks
+        jest.clearAllMocks();
     });
 
     describe('register', () => {
