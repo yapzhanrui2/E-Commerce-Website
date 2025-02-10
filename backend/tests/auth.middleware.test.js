@@ -12,6 +12,9 @@ describe('Auth Middleware', () => {
     let responseObject;
 
     beforeEach(() => {
+        // Reset all mocks before each test
+        jest.clearAllMocks();
+        
         responseObject = {};
         mockRequest = {
             headers: {},
@@ -24,6 +27,11 @@ describe('Auth Middleware', () => {
             })
         };
         nextFunction = jest.fn();
+    });
+
+    afterEach(() => {
+        // Clean up mocks
+        jest.clearAllMocks();
     });
 
     describe('verifyToken', () => {

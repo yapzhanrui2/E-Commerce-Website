@@ -43,12 +43,12 @@ describe('Review Controller Tests', () => {
     let user2Id;
     let user1Token;
     let user2Token;
+    let reviewIds = [];
 
     // Setup test data before all tests
     beforeAll(async () => {
         try {
-            // Clear existing users and create test users
-            await User.destroy({ where: {}, force: true });
+            // Create test users
             const user1 = await User.create(testUser1);
             const user2 = await User.create(testUser2);
             
@@ -71,24 +71,23 @@ describe('Review Controller Tests', () => {
     // Cleanup after all tests
     afterAll(async () => {
         try {
-            await User.destroy({ where: {}, force: true });
-            await Product.destroy({ where: {}, force: true });
-            await Review.destroy({ where: {}, force: true });
+            // Delete test data in reverse order of dependencies
+            await Review.destroy({ where: { id: reviewIds } });
+            await Product.destroy({ where: { id: productId } });
+            await User.destroy({ where: { id: [user1Id, user2Id] } });
         } catch (error) {
             console.error('Test cleanup error:', error);
         }
     });
 
-    // Clear reviews before each test
+    // Clear only test reviews before each test
     beforeEach(async () => {
         try {
-            await Review.destroy({
-                where: {},
-                force: true,
-                truncate: { cascade: true }
-            });
+            // Clear previous test reviews
+            await Review.destroy({ where: { productId } });
+            reviewIds = []; // Reset review IDs array
         } catch (error) {
-            console.error('Error clearing reviews:', error);
+            console.error('Error clearing test reviews:', error);
         }
     });
 
@@ -104,6 +103,7 @@ describe('Review Controller Tests', () => {
             expect(res.body.review.comment).toBe(testReview.comment);
             expect(res.body.review.userId).toBe(user1Id);
             expect(res.body.review.productId).toBe(productId);
+            reviewIds.push(res.body.review.id); // Store review ID for cleanup
         });
 
         test('should reject review creation without authentication', async () => {
@@ -154,17 +154,18 @@ describe('Review Controller Tests', () => {
     describe('GET /api/reviews/:productId', () => {
         beforeEach(async () => {
             // Create test reviews
-            await Review.create({
+            const review1 = await Review.create({
                 ...testReview,
                 productId,
                 userId: user1Id
             });
-            await Review.create({
+            const review2 = await Review.create({
                 rating: 5,
                 comment: "Excellent!",
                 productId,
                 userId: user2Id
             });
+            reviewIds.push(review1.id, review2.id); // Store review IDs for cleanup
         });
 
         test('should get all reviews for a product', async () => {

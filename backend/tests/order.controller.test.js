@@ -76,13 +76,6 @@ describe('Order Controller Tests', () => {
     // Setup test data before all tests
     beforeAll(async () => {
         try {
-            // Clear existing data
-            await User.destroy({ where: {}, force: true });
-            await Product.destroy({ where: {}, force: true });
-            await Order.destroy({ where: {}, force: true });
-            await OrderItem.destroy({ where: {}, force: true });
-            await CartItem.destroy({ where: {}, force: true });
-
             // Create test users
             const user = await User.create(testUser);
             const admin = await User.create(testAdmin);
@@ -102,11 +95,25 @@ describe('Order Controller Tests', () => {
         }
     });
 
+    // Clean up test data after all tests
+    afterAll(async () => {
+        try {
+            // Delete test data in reverse order of dependencies
+            await OrderItem.destroy({ where: { productId } });
+            await Order.destroy({ where: { userId: [userId, adminId] } });
+            await CartItem.destroy({ where: { userId: [userId, adminId] } });
+            await Product.destroy({ where: { id: productId } });
+            await User.destroy({ where: { id: [userId, adminId] } });
+        } catch (error) {
+            console.error('Test cleanup error:', error);
+        }
+    });
+
     // Clear data between tests
     beforeEach(async () => {
-        await Order.destroy({ where: {}, force: true });
-        await OrderItem.destroy({ where: {}, force: true });
-        await CartItem.destroy({ where: {}, force: true });
+        await Order.destroy({ where: { userId: [userId, adminId] } });
+        await OrderItem.destroy({ where: { productId } });
+        await CartItem.destroy({ where: { userId: [userId, adminId] } });
     });
 
     describe('POST /api/orders/checkout', () => {
