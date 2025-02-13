@@ -83,7 +83,7 @@ A full-stack e-commerce platform built with Next.js, Node.js, Express, and Postg
 
 ### Backend
 - **Runtime**: Node.js + Express.js
-- **Database**: PostgreSQL + Sequelize ORM
+- **Database**: PostgreSQL + Sequelize ORM on Amazon RDS
 - **Authentication**: JWT (JSON Web Tokens)
 - **Payment Processing**: Stripe
 - **Testing**: Jest + Supertest
