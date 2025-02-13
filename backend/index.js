@@ -35,19 +35,16 @@ app.use('/api/orders', orderRoutes);
 
 // Test route
 app.get('/', (req, res) => {
-    res.json({ message: 'Welcome to the Cofeee Bean E-Commerce API' });
+    res.json({ message: 'Welcome to the Coffee Bean E-Commerce API' });
 });
 
-// Database initialization and server start
-const PORT = process.env.PORT || 5005;
-
+// Database initialization
 const initializeDatabase = async () => {
     try {
         await sequelize.authenticate();
         console.log('Database connection has been established successfully.');
         // Prevent automatic sync in test environment
         if (process.env.NODE_ENV !== 'test') {
-            // Sync database (in development, you might want to use {force: true} to recreate tables)
             await sequelize.sync();
             console.log('Database synchronized successfully.');
         }
@@ -56,15 +53,16 @@ const initializeDatabase = async () => {
     }
 };
 
+// Initialize database connection
 initializeDatabase();
 
-// Only start the server if we're not in a test environment
-let server;
-if (process.env.NODE_ENV !== 'test') {
-    server = app.listen(PORT, () => {
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = process.env.PORT || 5005;
+    app.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);
     });
 }
 
-// Export both app and server for testing
-module.exports = { app, server };
+// Export the Express app for Vercel
+module.exports = app;
