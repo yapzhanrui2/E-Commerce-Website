@@ -114,21 +114,21 @@ export default function CartPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#121212]">
       <Header />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-lg shadow">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h1 className="text-2xl font-semibold text-gray-900">Shopping Cart</h1>
+        <div className="bg-white dark:bg-[#1D1D1F] rounded-lg shadow">
+          <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-800">
+            <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Shopping Cart</h1>
           </div>
 
           {cartItems.length === 0 ? (
             <div className="p-6 text-center">
-              <p className="text-gray-500 mb-4">Your cart is empty</p>
+              <p className="text-gray-500 dark:text-gray-400 mb-4">Your cart is empty</p>
               <Link
                 href="/"
-                className="inline-flex items-center text-blue-600 hover:text-blue-700"
+                className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
               >
                 <svg
                   className="w-5 h-5 mr-2"
@@ -152,7 +152,7 @@ export default function CartPage() {
                 {cartItems.map((item) => (
                   <div
                     key={item.id}
-                    className="flex items-center py-5 first:pt-0 last:pb-0 border-b last:border-b-0 border-gray-200"
+                    className="flex items-center py-5 first:pt-0 last:pb-0 border-b last:border-b-0 border-gray-200 dark:border-gray-800"
                   >
                     <div className="relative h-24 w-24 flex-shrink-0">
                       <Image
@@ -165,17 +165,17 @@ export default function CartPage() {
                     <div className="ml-4 flex-1">
                       <div className="flex items-start justify-between">
                         <div>
-                          <h3 className="text-lg font-medium text-gray-900">
+                          <h3 className="text-lg font-medium text-gray-900 dark:text-white">
                             {(item.product?.name || item.Product?.name) || 'Product'}
                           </h3>
-                          <p className="mt-1 text-sm text-gray-500">
+                          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                             ${((item.product?.price || item.Product?.price || 0)).toFixed(2)} each
                           </p>
                         </div>
                         <button
                           onClick={() => handleRemoveItem(item.id)}
                           disabled={updatingItemId === item.id}
-                          className="text-gray-400 hover:text-gray-500"
+                          className="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400"
                         >
                           <span className="sr-only">Remove</span>
                           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -188,7 +188,7 @@ export default function CartPage() {
                           value={item.quantity}
                           onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value))}
                           disabled={updatingItemId === item.id}
-                          className="rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm text-black"
+                          className="rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-[#2D2D2F] dark:text-white sm:text-sm"
                         >
                           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                             <option key={num} value={num}>
@@ -197,7 +197,7 @@ export default function CartPage() {
                           ))}
                         </select>
                         <div className="ml-4">
-                          <p className="text-sm font-medium text-gray-900">
+                          <p className="text-sm font-medium text-gray-900 dark:text-white">
                             ${((item.product?.price || item.Product?.price || 0) * item.quantity).toFixed(2)}
                           </p>
                         </div>
@@ -207,13 +207,13 @@ export default function CartPage() {
                 ))}
               </div>
 
-              <div className="px-6 py-4 bg-gray-50 rounded-b-lg">
+              <div className="px-6 py-4 bg-gray-50 dark:bg-[#2D2D2F] rounded-b-lg">
                 <div className="flex justify-between items-center">
                   <div>
-                    <p className="text-lg font-medium text-gray-900">Subtotal</p>
-                    <p className="mt-1 text-sm text-gray-500">Shipping and taxes calculated at checkout</p>
+                    <p className="text-lg font-medium text-gray-900 dark:text-white">Subtotal</p>
+                    <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Shipping and taxes calculated at checkout</p>
                   </div>
-                  <div className="text-2xl font-bold text-gray-900">
+                  <div className="text-2xl font-bold text-gray-900 dark:text-white">
                     ${calculateSubtotal().toFixed(2)}
                   </div>
                 </div>
@@ -221,7 +221,7 @@ export default function CartPage() {
                   <button
                     onClick={handleCheckout}
                     disabled={loading}
-                    className={`w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
+                    className={`w-full flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-[#2D2D2F] ${
                       loading ? 'opacity-75 cursor-not-allowed' : ''
                     }`}
                   >
@@ -256,7 +256,7 @@ export default function CartPage() {
                   <div className="mt-4 text-center">
                     <Link
                       href="/"
-                      className="text-sm text-blue-600 hover:text-blue-700"
+                      className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
                     >
                       Continue Shopping
                     </Link>
