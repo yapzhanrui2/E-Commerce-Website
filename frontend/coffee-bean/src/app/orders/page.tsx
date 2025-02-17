@@ -125,18 +125,18 @@ export default function OrdersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#121212]">
       <Header />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-2xl font-semibold text-gray-900 mb-8">Your Orders</h1>
+        <h1 className="text-2xl font-semibold text-gray-900 dark:text-white mb-8">Your Orders</h1>
 
         {orders.length === 0 ? (
-          <div className="bg-white rounded-lg shadow p-6 text-center">
-            <p className="text-gray-500 mb-4">You haven&apos;t placed any orders yet</p>
+          <div className="bg-white dark:bg-[#1D1D1F] rounded-lg shadow p-6 text-center">
+            <p className="text-gray-500 dark:text-gray-400 mb-4">You haven&apos;t placed any orders yet</p>
             <Link
               href="/"
-              className="text-blue-600 hover:text-blue-700"
+              className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
             >
               Start Shopping
             </Link>
@@ -144,20 +144,20 @@ export default function OrdersPage() {
         ) : (
           <div className="space-y-6">
             {orders.map((order) => (
-              <div key={order.id} className="bg-white rounded-lg shadow overflow-hidden">
-                <div className="px-6 py-4 border-b border-gray-200">
+              <div key={order.id} className="bg-white dark:bg-[#1D1D1F] rounded-lg shadow overflow-hidden">
+                <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-800">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-sm text-gray-500">Order placed</p>
-                      <p className="font-medium">{formatDate(order.createdAt)}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Order placed</p>
+                      <p className="font-medium text-gray-900 dark:text-white">{formatDate(order.createdAt)}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500">Total amount</p>
-                      <p className="font-medium">${order.totalAmount.toFixed(2)}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Total amount</p>
+                      <p className="font-medium text-gray-900 dark:text-white">${order.totalAmount.toFixed(2)}</p>
                     </div>
                     <div>
-                      <p className="text-sm text-gray-500">Order ID</p>
-                      <p className="font-medium">{order.id}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Order ID</p>
+                      <p className="font-medium text-gray-900 dark:text-white">{order.id}</p>
                     </div>
                     <div>
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
@@ -169,7 +169,7 @@ export default function OrdersPage() {
 
                 <div className="px-6 py-4">
                   {order.OrderItems.map((item) => (
-                    <div key={item.id} className="flex items-center py-4 first:pt-0 last:pb-0 border-b last:border-b-0 border-gray-200">
+                    <div key={item.id} className="flex items-center py-4 first:pt-0 last:pb-0 border-b last:border-b-0 border-gray-200 dark:border-gray-800">
                       <div className="relative h-20 w-20 flex-shrink-0">
                         <Image
                           src={`${process.env.NEXT_PUBLIC_S3_BASE_URL}/products/${item.Product.name}.webp`}
@@ -179,13 +179,13 @@ export default function OrdersPage() {
                         />
                       </div>
                       <div className="ml-4 flex-1">
-                        <h3 className="text-lg font-medium text-gray-900">
+                        <h3 className="text-lg font-medium text-gray-900 dark:text-white">
                           {item.Product.name}
                         </h3>
-                        <p className="mt-1 text-sm text-gray-500">
+                        <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                           Quantity: {item.quantity}
                         </p>
-                        <p className="mt-1 text-sm font-medium text-gray-900">
+                        <p className="mt-1 text-sm font-medium text-gray-900 dark:text-white">
                           ${(item.priceAtTime * item.quantity).toFixed(2)}
                         </p>
                       </div>

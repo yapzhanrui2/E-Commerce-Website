@@ -221,13 +221,13 @@ export default function ProductDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-[#121212]">
       <Header />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <Link
           href="/"
-          className="inline-flex items-center text-gray-600 hover:text-gray-900 mb-6 md:mb-8 group"
+          className="inline-flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-6 md:mb-8 group"
         >
           <svg
             className="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform duration-200"
@@ -245,7 +245,7 @@ export default function ProductDetail() {
           Back to Products
         </Link>
 
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div className="bg-white dark:bg-[#1D1D1F] rounded-2xl shadow-lg overflow-hidden">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 p-4 md:p-8">
             {/* Product Image */}
             <div className="relative h-[300px] md:h-[500px] rounded-xl overflow-hidden group">
@@ -267,47 +267,47 @@ export default function ProductDetail() {
                   {product.categories.map((category, index) => (
                     <span
                       key={index}
-                      className="px-3 py-1 text-xs md:text-sm bg-blue-50 text-blue-600 rounded-full hover:bg-blue-100 transition-colors"
+                      className="px-3 py-1 text-xs md:text-sm bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-full hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
                     >
                       {category}
                     </span>
                   ))}
                 </div>
                 
-                <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">{product.name}</h1>
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">{product.name}</h1>
                 
-                <p className="text-xl md:text-2xl font-bold text-gray-900 mb-6">
+                <p className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-6">
                   ${product.price.toFixed(2)}
                 </p>
 
-                <p className="text-gray-600 mb-8 leading-relaxed text-sm md:text-base">
+                <p className="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed text-sm md:text-base">
                   {product.description}
                 </p>
 
                 <div className="space-y-4 md:space-y-6 mb-8">
                   <div className="flex items-center gap-4">
-                    <div className="w-8 h-8 text-blue-600">
+                    <div className="w-8 h-8 text-blue-600 dark:text-blue-400">
                       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-gray-700">Premium quality coffee beans</span>
+                    <span className="text-gray-700 dark:text-gray-300">Premium quality coffee beans</span>
                   </div>
                   <div className="flex items-center gap-4">
-                    <div className="w-8 h-8 text-blue-600">
+                    <div className="w-8 h-8 text-blue-600 dark:text-blue-400">
                       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-gray-700">Roasted to order for maximum freshness</span>
+                    <span className="text-gray-700 dark:text-gray-300">Roasted to order for maximum freshness</span>
                   </div>
                   <div className="flex items-center gap-4">
-                    <div className="w-8 h-8 text-blue-600">
+                    <div className="w-8 h-8 text-blue-600 dark:text-blue-400">
                       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <span className="text-gray-700">Free shipping on orders over $50</span>
+                    <span className="text-gray-700 dark:text-gray-300">Free shipping on orders over $50</span>
                   </div>
                 </div>
               </div>
@@ -316,7 +316,7 @@ export default function ProductDetail() {
                 <select
                   value={quantity}
                   onChange={handleQuantityChange}
-                  className="w-full sm:w-24 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-black"
+                  className="w-full sm:w-24 rounded-lg border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-[#2D2D2F] dark:text-white text-black"
                 >
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                     <option key={num} value={num}>
@@ -369,15 +369,15 @@ export default function ProductDetail() {
 
         {/* Reviews Section */}
         <div className="mt-8 md:mt-16">
-          <div className="bg-white rounded-2xl shadow-lg p-4 md:p-8">
+          <div className="bg-white dark:bg-[#1D1D1F] rounded-2xl shadow-lg p-4 md:p-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-8">
               <div className="mb-4 md:mb-0">
-                <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
+                <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-2">
                   Customer Reviews
                 </h2>
                 <div className="flex items-center gap-2">
                   {renderStars(Number(getAverageRating()))}
-                  <span className="text-sm md:text-base text-gray-600">
+                  <span className="text-sm md:text-base text-gray-600 dark:text-gray-300">
                     {getAverageRating()} out of 5 ({reviews.length} reviews)
                   </span>
                 </div>
@@ -385,7 +385,7 @@ export default function ProductDetail() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as 'recent' | 'rating')}
-                className="w-full md:w-auto rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="w-full md:w-auto rounded-lg border-gray-300 dark:border-gray-700 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-[#2D2D2F] dark:text-white"
               >
                 <option value="recent">Most Recent</option>
                 <option value="rating">Highest Rated</option>
@@ -394,16 +394,16 @@ export default function ProductDetail() {
 
             {/* Review Form */}
             {isAuthenticated ? (
-              <div className="mb-12 bg-gray-50 rounded-xl p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Write a Review</h3>
+              <div className="mb-12 bg-gray-50 dark:bg-[#2D2D2F] rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Write a Review</h3>
                 <ReviewForm productId={id} onReviewSubmitted={handleReviewSubmitted} />
               </div>
             ) : (
-              <div className="bg-gray-50 rounded-xl p-6 mb-12 text-center">
-                <p className="text-gray-600 mb-3">Sign in to leave a review</p>
+              <div className="bg-gray-50 dark:bg-[#2D2D2F] rounded-xl p-6 mb-12 text-center">
+                <p className="text-gray-600 dark:text-gray-300 mb-3">Sign in to leave a review</p>
                 <button
                   onClick={() => setShowAuthModal(true)}
-                  className="text-blue-600 hover:text-blue-700 font-medium hover:underline"
+                  className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium hover:underline"
                 >
                   Sign In
                 </button>
@@ -414,7 +414,7 @@ export default function ProductDetail() {
               {getSortedReviews().map((review) => (
                 <div
                   key={review.id}
-                  className="border-b border-gray-200 pb-8 last:border-b-0"
+                  className="border-b border-gray-200 dark:border-gray-800 pb-8 last:border-b-0"
                 >
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center">
@@ -422,12 +422,12 @@ export default function ProductDetail() {
                         {review.user?.name?.[0] || 'U'}
                       </div>
                       <div className="ml-4">
-                        <p className="font-semibold text-gray-900">
+                        <p className="font-semibold text-gray-900 dark:text-white">
                           {review.user?.name || 'Anonymous'}
                         </p>
                         <div className="flex items-center gap-2">
                           {renderStars(review.rating)}
-                          <span className="text-sm text-gray-500">
+                          <span className="text-sm text-gray-500 dark:text-gray-400">
                             {new Date(review.createdAt).toLocaleDateString('en-US', {
                               year: 'numeric',
                               month: 'long',
@@ -438,12 +438,12 @@ export default function ProductDetail() {
                       </div>
                     </div>
                   </div>
-                  <p className="text-gray-600 leading-relaxed">{review.comment}</p>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{review.comment}</p>
                 </div>
               ))}
 
               {reviews.length === 0 && (
-                <div className="text-center py-12 text-gray-500">
+                <div className="text-center py-12 text-gray-500 dark:text-gray-400">
                   No reviews yet. Be the first to review this product!
                 </div>
               )}

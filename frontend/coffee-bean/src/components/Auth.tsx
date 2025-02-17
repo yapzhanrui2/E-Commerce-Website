@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 interface AuthProps {
   onClose: () => void;
@@ -10,11 +11,17 @@ export default function Auth({ onClose }: AuthProps) {
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     name: '', // Only for registration
   });
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,10 +51,7 @@ export default function Auth({ onClose }: AuthProps) {
         throw new Error(data.message || 'Authentication failed');
       }
 
-      // Store the token in localStorage
       localStorage.setItem('token', data.token);
-
-      // Close the modal and refresh the page to update the UI
       onClose();
       window.location.reload();
     } catch (err) {
@@ -64,12 +68,13 @@ export default function Auth({ onClose }: AuthProps) {
     }));
   };
 
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg p-8 max-w-md w-full relative">
+  const modalContent = (
+    <div className="fixed inset-0 flex items-center justify-center z-[9999]">
+      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div className="bg-white dark:bg-[#1D1D1F] rounded-2xl p-8 max-w-md w-full relative z-[10000] mx-4 animate-modal-fade-in">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+          className="absolute top-4 right-4 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
         >
           <svg
             className="w-6 h-6"
@@ -86,12 +91,12 @@ export default function Auth({ onClose }: AuthProps) {
           </svg>
         </button>
 
-        <h2 className="text-2xl font-bold text-center mb-6">
+        <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">
           {isLogin ? 'Welcome Back' : 'Create Account'}
         </h2>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
+          <div className="mb-4 p-3 bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400 rounded-lg text-sm">
             {error}
           </div>
         )}
@@ -99,7 +104,7 @@ export default function Auth({ onClose }: AuthProps) {
         <form onSubmit={handleSubmit} className="space-y-4">
           {!isLogin && (
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Name
               </label>
               <input
@@ -109,14 +114,14 @@ export default function Auth({ onClose }: AuthProps) {
                 required={!isLogin}
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-[#2D2D2F] dark:text-white dark:focus:ring-blue-400 dark:placeholder-gray-500"
                 placeholder="Enter your name"
               />
             </div>
           )}
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Email
             </label>
             <input
@@ -126,13 +131,13 @@ export default function Auth({ onClose }: AuthProps) {
               required
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-[#2D2D2F] dark:text-white dark:focus:ring-blue-400 dark:placeholder-gray-500"
               placeholder="Enter your email"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Password
             </label>
             <input
@@ -142,7 +147,7 @@ export default function Auth({ onClose }: AuthProps) {
               required
               value={formData.password}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-[#2D2D2F] dark:text-white dark:focus:ring-blue-400 dark:placeholder-gray-500"
               placeholder="Enter your password"
               minLength={6}
             />
@@ -154,8 +159,8 @@ export default function Auth({ onClose }: AuthProps) {
             className={`w-full py-3 px-4 rounded-lg text-white font-semibold ${
               loading
                 ? 'bg-blue-400 cursor-not-allowed'
-                : 'bg-blue-600 hover:bg-blue-700'
-            }`}
+                : 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600'
+            } transition-colors duration-200`}
           >
             {loading ? (
               <span className="flex items-center justify-center">
@@ -190,7 +195,7 @@ export default function Auth({ onClose }: AuthProps) {
         <div className="mt-4 text-center">
           <button
             onClick={() => setIsLogin(!isLogin)}
-            className="text-blue-600 hover:text-blue-700 text-sm"
+            className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-medium"
           >
             {isLogin
               ? "Don't have an account? Sign up"
@@ -198,6 +203,30 @@ export default function Auth({ onClose }: AuthProps) {
           </button>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes modalFadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-1rem);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .animate-modal-fade-in {
+          animation: modalFadeIn 0.3s ease-out;
+        }
+      `}</style>
     </div>
+  );
+
+  if (!mounted) return null;
+
+  return createPortal(
+    modalContent,
+    document.body
   );
 } 

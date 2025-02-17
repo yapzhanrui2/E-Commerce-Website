@@ -1,17 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 import { Toaster } from 'react-hot-toast';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
@@ -25,35 +21,38 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="light">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} font-sans antialiased bg-[#FAFAFA] text-[#1D1D1F] dark:bg-[#121212] dark:text-white transition-colors duration-200`}
       >
-        <CartProvider>
-          {children}
-          <Toaster 
-            position="top-right"
-            toastOptions={{
-              duration: 3000,
-              style: {
-                background: '#333',
-                color: '#fff',
-              },
-              success: {
-                iconTheme: {
-                  primary: '#10B981',
-                  secondary: '#fff',
+        <ThemeProvider>
+          <CartProvider>
+            {children}
+            <Toaster 
+              position="top-right"
+              toastOptions={{
+                className: 'dark:bg-[#1D1D1F] dark:text-white',
+                style: {
+                  background: '#1D1D1F',
+                  color: '#FFFFFF',
+                  borderRadius: '12px',
                 },
-              },
-              error: {
-                iconTheme: {
-                  primary: '#EF4444',
-                  secondary: '#fff',
+                success: {
+                  iconTheme: {
+                    primary: '#00A67E',
+                    secondary: '#FFFFFF',
+                  },
                 },
-              },
-            }}
-          />
-        </CartProvider>
+                error: {
+                  iconTheme: {
+                    primary: '#FF4B4B',
+                    secondary: '#FFFFFF',
+                  },
+                },
+              }}
+            />
+          </CartProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
